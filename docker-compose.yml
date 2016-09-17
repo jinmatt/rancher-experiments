@@ -1,0 +1,24 @@
+mywordpress:
+  labels:
+    io.rancher.container.pull_image: always
+  tty: true
+  image: wordpress
+  links:
+  - database:mysql
+  stdin_open: true
+database:
+  environment:
+    MYSQL_ROOT_PASSWORD: letmein1234
+  labels:
+    io.rancher.container.pull_image: always
+  tty: true
+  image: mysql
+  stdin_open: true
+wordpresslb:
+  ports:
+  - 80:80
+  tty: true
+  image: rancher/load-balancer-service
+  links:
+  - mywordpress:mywordpress
+  stdin_open: true
